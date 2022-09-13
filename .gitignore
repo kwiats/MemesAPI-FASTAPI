@@ -1,0 +1,14 @@
+.vscode/
+
+venv/
+*.pyc
+__pycache__/
+
+memes/
+polishmemes/
+polishmeme/
+ProgrammerHumor/
+*.jpg
+*.gif
+
+src/.env
