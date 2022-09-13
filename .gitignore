@@ -10,5 +10,6 @@ polishmeme/
 ProgrammerHumor/
 *.jpg
 *.gif
+*.png
 
 src/.env
