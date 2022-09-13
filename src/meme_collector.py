@@ -1,5 +1,4 @@
 import os as _os
-from tkinter import image_names
 from urllib import response
 import dotenv as _dotenv
 import praw as _praw
@@ -11,6 +10,9 @@ _dotenv.load_dotenv()
 
 
 def _create_reddit_client():
+    """
+    Connecting to reddit API with client_id and client_secret from .env
+    """
     client = _praw.Reddit(
         client_id=_os.environ["CLIENT_ID"],
         client_secret=_os.environ["CLIENT_SECRET"],
@@ -20,6 +22,9 @@ def _create_reddit_client():
 
 
 def _is_image(post):
+    """
+    This function checking post, if it is a image.
+    """
     try:
         return post.post_hint == "image"
     except AttributeError:
@@ -27,6 +32,9 @@ def _is_image(post):
 
 
 def _get_image_urls(client: _praw.Reddit, subreddit_name: str, limit: int):
+    """
+    Finding hot post and getting links to them
+    """
     hot_post = client.subreddit(subreddit_name).hot(limit=limit)
     image_urls = list()
     for post in hot_post:
@@ -37,6 +45,9 @@ def _get_image_urls(client: _praw.Reddit, subreddit_name: str, limit: int):
 
 
 def _get_image_name(image_url: str) -> str:
+    """
+    Getting of unical name from urls
+    """
     image_name = _parse.urlparse(image_url)
     return _os.path.basename(image_name.path)
 
@@ -57,6 +68,9 @@ def _create_folder(folder_name: str):
 
 
 def _download_image(folder_name: str, raw_response, image_name: str):
+    """
+    if folder exists, save image from reddit to file.
+    """
     _create_folder(folder_name)
     with open(f"{folder_name}/{image_name}", "wb") as image_file:
         _shutil.copyfileobj(raw_response, image_file)
@@ -81,4 +95,4 @@ def _collect_memes(subreddit_name: str, limit: int = 20):
 
 
 if __name__ == "__main__":
-    _collect_memes("memes")
+    _collect_memes("ProgrammerHumor")
